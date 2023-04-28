@@ -1,0 +1,43 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjgyNjMxMzI1fQ.B0pjbGJsubI0f8DDqZZPnU94QHoJOiNIm3DhyYWgIag
+@token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjgyNjMxNDg2fQ.ejSimiaN0i9gjj4vhu0mMgC8rCKDcWLzHHLhc_ofJLc
+@host=http://localhost:8888/api/v1/notes
+
+
+###
+GET {{host}}?page=0
+Authorization:Beader {{token}}
+
+###
+GET {{host}}/1
+Authorization:Beader {{token}}
+
+###
+GET {{host}}/search/din
+Authorization:Beader {{token}}
+
+####
+POST {{host}}/
+Content-Type: application/json
+Authorization:Beader {{token}}
+
+{
+    "title" : "algo vaan",
+    "content" : "van dinjk",
+    "importance" : "HIGH"
+}
+
+###
+PUT {{host}}/3
+Content-Type: application/json
+Authorization:Beader {{token}}
+
+{
+    "title" : "algo v2an",
+    "content" : "van dinjk",
+    "importance" : "HIGH"
+}
+
+
+### 
+DELETE {{host}}/3
+Authorization:Beader {{token}}

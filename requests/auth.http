@@ -1,0 +1,22 @@
+@host=http://localhost:8888/api/v1/auth
+
+####
+POST {{host}}/register
+Content-Type: application/json
+
+{
+    "email" : "anderk333@gmail.com",
+    "name" : "Anderson Macias",
+    "password" : "12345bQA",
+    "confirmPassword" : "12345bQA"
+}
+
+###
+POST {{host}}/authenticate
+Content-Type: application/json
+
+{
+    "email" : "anderk333@gmail.com",
+    "password" : "12345bQA"
+
+}
