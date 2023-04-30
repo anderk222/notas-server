@@ -7,7 +7,6 @@ export async function register(req: Req, res: Res<any>, next: Next) {
 
     try {
 
-
         const user = await registerSchema.validate(req.body);
 
         const exist = await prisma.user.count({ where: { email: user.email } });
@@ -55,3 +54,8 @@ export async function authenticate(req: Req, res: Res<any>, next: Next) {
         next(error)
     }
 }
+export function verify(req : Req, res : Res<undefined>, next : Next){
+
+    res.status(200);
+
+};

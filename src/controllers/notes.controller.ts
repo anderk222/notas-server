@@ -5,6 +5,7 @@ import {
     noteSchema
 } from '../models';
 import { getPaginable } from '../util';
+import { SortNote } from '../models/Note';
 
 export async function create(req: Req, res: Res<Note>, next: Next) {
 
@@ -93,10 +94,51 @@ export async function findAll(req: Req, res: Paginable<Note>, next: Next) {
         await number().equals([1], 'usuario no existe').required().validate(exist_user);
 
         const { limit: take, page, skip } = getPaginable(req);
+        const count = await prisma.note.count({ where : { userId } });
 
         const data = await prisma.note.findMany({ where: { userId }, take, skip });
 
-        return res.json({ limit: take, page, count: 0, data });
+        return res.json({ limit: take, page, count, data });
+
+    } catch (error) {
+
+        next(error);
+
+
+    }
+
+}
+
+
+export async function findAllSort(req: Req, res: Paginable<SortNote>, next: Next) {
+
+    try {
+
+        const userId = await number().required()
+            .min(1).validate(parseInt(req.headers.authorization!));
+
+        const exist_user = await prisma.user.count({ where: { id: userId } });
+
+        await number().equals([1], 'usuario no existe').required().validate(exist_user);
+
+        const { limit: take, page, skip } = getPaginable(req);
+
+        const select = {
+            title: true,
+            id: true,
+            createAt: true,
+            importance: true
+        }
+        
+        const count = await prisma.note.count({ where : { userId } });
+
+        const data = await prisma.note.findMany({
+            where: { userId },
+            select
+            , take, skip
+        });
+
+        return res.json({ limit: take, page, count, data });
 
     } catch (error) {
 
@@ -153,7 +195,7 @@ export async function search(req: Req, res: Paginable<Note>, next: Next) {
                     title: { contains: search },
                     content: { contains: search }
 
-                },userId
+                }, userId
             },
             take,
             skip
@@ -167,4 +209,4 @@ export async function search(req: Req, res: Paginable<Note>, next: Next) {
 
     }
 
-}
+};
